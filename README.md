@@ -23,77 +23,114 @@
   <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
+# User Service
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Этот проект представляет собой сервис для работы с пользователями с использованием NestJS и TypeORM. Сервис включает в себя два основных функционала:
 
-## Project setup
+- Обновление флага `problems` у пользователей.
+- Подсчет количества пользователей с флагом `problems` равным `true`.
+
+## Требования
+
+Для работы с проектом вам потребуется:
+
+- Node.js версии 14 и выше.
+- PostgreSQL или другая совместимая база данных, настроенная для использования с TypeORM.
+
+## Установка и настройка
+
+### Клонирование репозитория
+
+1. Клонируйте репозиторий:
+
+    ```bash
+    git clone https://github.com/your-repository-url
+    cd user-service
+    ```
+
+2. Установите зависимости:
+
+    ```bash
+    npm install
+    ```
+
+3. Настройте файл `.env` с конфигурацией базы данных:
+
+    ```env
+    DB_HOST=
+    DB_PORT=
+    DB_USER=
+    DB_PASSWORD=
+    DB_DATABASE=
+    ```
+
+4. Убедитесь, что ваша база данных PostgreSQL запущена и доступна.
+
+### Выполнение миграций
+
+1. Выполните миграции для создания таблиц и наполнения базы данных:
+
+    Запустите миграции для создания таблицы пользователей и добавления данных в базу:
+
+    ```bash
+    npx ts-node -r tsconfig-paths/register node_modules/typeorm/cli.js migration:run -d src/database/data-source.ts
+    ```
+
+    **Важно:** база данных будет содержать таблицу `user` с более чем 1 миллионом пользователей.
+
+## Запуск проекта
+
+Для запуска сервера выполните команду:
 
 ```bash
-$ npm install
+npm run start
 ```
 
-## Compile and run the project
+Сервис будет доступен по адресу `http://localhost:3000`.
 
-```bash
-# development
-$ npm run start
+## Миграции
+![image](https://github.com/user-attachments/assets/22dd8c21-a54e-4ba9-8337-340dc7f97582)
 
-# watch mode
-$ npm run start:dev
+- **Создание таблицы пользователей** — первая миграция создаёт таблицу `user` с нужными полями.
+- **Заполнение таблицы пользователями** — вторая миграция добавляет в таблицу 1 миллион пользователей с случайными данными.
+![image](https://github.com/user-attachments/assets/ef4035cb-48b5-4673-a894-64f9706d861d)
 
-# production mode
-$ npm run start:prod
-```
+## Структура таблицы `user`
 
-## Run tests
+Каждый пользователь имеет следующие поля:
 
-```bash
-# unit tests
-$ npm run test
+- `id` (number): уникальный идентификатор пользователя.
+- `firstName` (string): имя пользователя.
+- `lastName` (string): фамилия пользователя.
+- `age` (number): возраст пользователя.
+- `gender` (string): пол пользователя (`male` или `female`).
+- `problems` (boolean): флаг, указывающий, есть ли проблемы у пользователя.
 
-# e2e tests
-$ npm run test:e2e
+![image](https://github.com/user-attachments/assets/a2391ccf-ce5d-4289-af17-ba9927c4ef85)
 
-# test coverage
-$ npm run test:cov
-```
+## API Эндпоинты
 
-## Deployment
+### 1. POST /users/reset-problems
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+### 2. GET /users/count-with-problems
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+![image](https://github.com/user-attachments/assets/0f85fbf1-1577-4f06-acbc-a66df8afdf00)
 
-```bash
-$ npm install -g mau
-$ mau deploy
-```
+## Разработка и тестирование
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+Для разработки и тестирования можно использовать следующие команды:
 
-## Resources
+- Запуск в режиме разработки:
 
-Check out a few resources that may come in handy when working with NestJS:
+    ```bash
+    npm run start:dev
+    ```
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+- Запуск тестов:
 
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+    ```bash
+    npm run test
+    ```
 
 ## License
 
