@@ -76,7 +76,7 @@
     npx ts-node -r tsconfig-paths/register node_modules/typeorm/cli.js migration:run -d src/database/data-source.ts
     ```
 
-    **Важно:** база данных будет содержать таблицу `user` с более чем 1 миллионом пользователей.
+    **Важно:** база данных будет содержать таблицу `user` с 1 миллионом пользователей.
 
 ## Запуск проекта
 
